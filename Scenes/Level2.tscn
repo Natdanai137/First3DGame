@@ -1,0 +1,242 @@
+[gd_scene format=3 uid="uid://bnxmysglf1suh"]
+
+[ext_resource type="PackedScene" path="res://Scenes/player2.tscn" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://clg6uvy704bkq" path="res://Level2/Chest by Quaternius - O72u4Drp8k.glb" id="3_chest"]
+[ext_resource type="Script" uid="uid://bpbjc2oxm2mpf" path="res://Scripts/DeadZone.gd" id="4_deadzone"]
+[ext_resource type="PackedScene" uid="uid://bk5n0tn4k1l0c" path="res://Scenes/Coin.tscn" id="5_coin"]
+[ext_resource type="Texture2D" uid="uid://cnbbny7qjh2xn" path="res://Assets/Textures/coin.png" id="6_coin_texture"]
+[ext_resource type="Script" uid="uid://bblncv7qj864l" path="res://Scripts/GameUI.gd" id="7_game_ui"]
+[ext_resource type="Script" uid="uid://bi7ofqdyr4hi8" path="res://Scripts/Level2.gd" id="8_level2"]
+[ext_resource type="PackedScene" path="res://Scenes/Level2Platform.tscn" id="9_platform"]
+
+[sub_resource type="Environment" id="Environment_level2"]
+background_mode = 1
+background_color = Color(0.055, 0.018, 0.1, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.55, 0.2, 0.68, 1)
+ambient_light_energy = 0.8
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 1.25
+fog_enabled = true
+fog_light_color = Color(0.22, 0.05, 0.3, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_floor"]
+albedo_color = Color(0.13, 0.035, 0.2, 1)
+metallic = 0.55
+roughness = 0.38
+
+[sub_resource type="BoxMesh" id="Mesh_floor"]
+size = Vector3(36, 0.6, 50)
+
+[sub_resource type="BoxShape3D" id="Shape_floor"]
+size = Vector3(36, 0.6, 50)
+
+[sub_resource type="BoxShape3D" id="Shape_chest"]
+size = Vector3(3.2, 2.8, 3.2)
+
+[sub_resource type="BoxShape3D" id="Shape_dead"]
+size = Vector3(90, 2, 90)
+
+[node name="Level2" type="Node3D" unique_id=658838782]
+script = ExtResource("8_level2")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=932217466]
+environment = SubResource("Environment_level2")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1508615314]
+transform = Transform3D(0.7880108, -0.48514786, 0.37903905, 0, 0.6156615, 0.7880108, -0.6156615, -0.62096095, 0.48514786, 0, -2.6059957, 0)
+light_color = Color(1, 0.4, 0.72, 1)
+light_energy = 1.6
+shadow_enabled = true
+
+[node name="TreasureGlow" type="OmniLight3D" parent="." unique_id=1617270908]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -14)
+light_color = Color(1, 0.6, 0.08, 1)
+light_energy = 7.0
+omni_range = 16.0
+
+[node name="Player" parent="." unique_id=709249726 instance=ExtResource("1_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 16)
+
+[node name="SpawnPosition" type="Marker3D" parent="." unique_id=1650087387]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 16)
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1640742170]
+collision_layer = 0
+collision_mask = 0
+
+[node name="FloorMesh" type="MeshInstance3D" parent="Floor" unique_id=1749549435]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+visible = false
+material_override = SubResource("Material_floor")
+mesh = SubResource("Mesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1645199254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+shape = SubResource("Shape_floor")
+
+[node name="Platforms" type="Node3D" parent="." unique_id=2018290461]
+
+[node name="StartPlatform" parent="Platforms" unique_id=1688162940 instance=ExtResource("9_platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.10255921, 16)
+
+[node name="JumpPlatform1" parent="Platforms" unique_id=1230283308 instance=ExtResource("9_platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.5, 11.5)
+
+[node name="JumpPlatform2" parent="Platforms" unique_id=1548373538 instance=ExtResource("9_platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 7.2)
+
+[node name="JumpPlatform3" parent="Platforms" unique_id=1160609910 instance=ExtResource("9_platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.5, 2.8)
+
+[node name="JumpPlatform4" parent="Platforms" unique_id=978448738 instance=ExtResource("9_platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.2, -1.5)
+
+[node name="JumpPlatform5" parent="Platforms" unique_id=1206273140 instance=ExtResource("9_platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.7, -5.5)
+
+[node name="JumpPlatform6" parent="Platforms" unique_id=757298141 instance=ExtResource("9_platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.1, -9.5)
+
+[node name="FinishPlatform" parent="Platforms" unique_id=25869188 instance=ExtResource("9_platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, -14)
+
+[node name="TreasureChest" parent="Platforms" unique_id=700937786 instance=ExtResource("3_chest")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.8, -14)
+
+[node name="ChestArea" type="Area3D" parent="Platforms/TreasureChest" unique_id=1581301646]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/TreasureChest/ChestArea" unique_id=1405726426]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+shape = SubResource("Shape_chest")
+
+[node name="ChestPrompt" type="Label3D" parent="Platforms/TreasureChest" unique_id=764611295]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+billboard = 1
+modulate = Color(1, 0.75, 0.22, 1)
+text = "CHEST LOCKED"
+font_size = 64
+outline_size = 8
+
+[node name="Coins" type="Node3D" parent="." unique_id=2079832301]
+
+[node name="Coin1" parent="Coins" unique_id=610666223 instance=ExtResource("5_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 15)
+
+[node name="Coin2" parent="Coins" unique_id=1084637928 instance=ExtResource("5_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.7, 11.5)
+
+[node name="Coin3" parent="Coins" unique_id=334451482 instance=ExtResource("5_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.2, 7.2)
+
+[node name="Coin4" parent="Coins" unique_id=397026137 instance=ExtResource("5_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.7, 2.8)
+
+[node name="Coin5" parent="Coins" unique_id=152493844 instance=ExtResource("5_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2.4, -1.5)
+
+[node name="Coin6" parent="Coins" unique_id=712526002 instance=ExtResource("5_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.9, -5.5)
+
+[node name="Coin7" parent="Coins" unique_id=972436954 instance=ExtResource("5_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3.3, -9.5)
+
+[node name="Coin8" parent="Coins" unique_id=1980301246 instance=ExtResource("5_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4, -14)
+
+[node name="Coin9" parent="Coins" unique_id=1606089157 instance=ExtResource("5_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 3.4, -14)
+
+[node name="Coin10" parent="Coins" unique_id=842760837 instance=ExtResource("5_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 3.4, -14)
+
+[node name="Title" type="Label3D" parent="." unique_id=688239231]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 10)
+billboard = 1
+modulate = Color(1, 0.68, 0.16, 1)
+text = "TREASURE TRAIL
+LEVEL 2"
+font_size = 96
+outline_size = 10
+
+[node name="DeadZone" type="Area3D" parent="." unique_id=511996257]
+script = ExtResource("4_deadzone")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeadZone" unique_id=1455784170]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.505346, 0)
+shape = SubResource("Shape_dead")
+
+[node name="UserInterface" type="CanvasLayer" parent="." unique_id=1008583052]
+
+[node name="GameUI" type="Control" parent="UserInterface" unique_id=861592055]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("7_game_ui")
+
+[node name="CoinTexture" type="TextureRect" parent="UserInterface/GameUI" unique_id=1898070459]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 31.0
+offset_right = 122.0
+offset_bottom = 121.0
+texture = ExtResource("6_coin_texture")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="CoinsLabel" type="Label" parent="UserInterface/GameUI" unique_id=2076230755]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 50.0
+offset_right = 260.0
+offset_bottom = 120.0
+theme_override_colors/font_color = Color(1, 0.72, 0.26, 1)
+theme_override_colors/font_outline_color = Color(0.25, 0.04, 0.32, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 48
+text = "x 0"
+
+[node name="ObjectiveLabel" type="Label" parent="UserInterface/GameUI" unique_id=1427346365]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 140.0
+offset_right = 700.0
+offset_bottom = 230.0
+theme_override_colors/font_color = Color(1, 0.88, 0.48, 1)
+theme_override_colors/font_outline_color = Color(0.2, 0.02, 0.27, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 28
+text = "Collect treasures"
+
+[node name="FinishPanel" type="Control" parent="UserInterface/GameUI" unique_id=702651309]
+anchors_preset = 0
+offset_left = 350.0
+offset_top = 220.0
+offset_right = 930.0
+offset_bottom = 510.0
+
+[node name="Backdrop" type="ColorRect" parent="UserInterface/GameUI/FinishPanel" unique_id=244911896]
+layout_mode = 0
+offset_right = 580.0
+offset_bottom = 290.0
+color = Color(0.1, 0.015, 0.16, 0.94)
+
+[node name="FinishMessage" type="Label" parent="UserInterface/GameUI/FinishPanel" unique_id=1702789220]
+layout_mode = 0
+offset_top = 55.0
+offset_right = 580.0
+offset_bottom = 245.0
+theme_override_colors/font_color = Color(1, 0.78, 0.25, 1)
+theme_override_colors/font_outline_color = Color(0.2, 0.02, 0.27, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 48
+text = "TREASURE FOUND!
+LEVEL 2 COMPLETE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="Platforms/TreasureChest/ChestArea" to="." method="_on_treasure_chest_body_entered"]
+[connection signal="body_entered" from="DeadZone" to="DeadZone" method="_on_body_entered"]

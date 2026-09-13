@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://Level1/Cyberpunk Platform by Quaternius - ctQ5CDmraQ.glb" id="1_cyberpunk"]
+
+[sub_resource type="BoxShape3D" id="CollisionShape_platform"]
+size = Vector3(4.6, 3.8, 4.1)
+
+[node name="PlatformCyberpunk" type="StaticBody3D"]
+
+[node name="CyberpunkModel" parent="." instance=ExtResource("1_cyberpunk")]
+position = Vector3(-6, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, -1.9, 0)
+shape = SubResource("CollisionShape_platform")
